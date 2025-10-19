@@ -35,12 +35,21 @@ public class Application {
     }
 
     private static void printAnswer(String input, String delim) {
-        StringTokenizer st = new StringTokenizer(input, delim);
+        if (input == null || input.isEmpty()) {
+            System.out.println("결과 : 0");
+            return;
+        }
+
+        String[] tokens = input.split(delim, -1);
         long answer = 0;
-        while (st.hasMoreTokens()) {
-            int cur = Integer.parseInt(st.nextToken());
+
+        for (String t : tokens) {
+            if (t.isEmpty()) {
+                throw new IllegalArgumentException("잘못된 입력");
+            }
+            int cur = Integer.parseInt(t);
             if (cur < 0) {
-                throw new IllegalArgumentException("음수 발생");
+                throw new IllegalArgumentException("음수 발생: " + cur);
             }
             answer += cur;
         }
