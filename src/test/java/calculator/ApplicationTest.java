@@ -40,6 +40,16 @@ class ApplicationTest extends NsTest {
         });
     }
 
+    // TODO: "//"와 "\n" 사이에 위치하는 문자를 커스텀 구분자로 추출한다.
+    @Test
+    void 커스텀_구분자와_양수() {
+        assertSimpleTest(() -> {
+            run("//;\\n1;2;3");
+            assertThat(output()).contains("결과 : 6");
+        });
+    }
+
+
     @Test
     void 빈문자열은_0을_반환한다() {
         assertSimpleTest(() -> {
