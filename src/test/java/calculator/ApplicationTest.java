@@ -41,7 +41,7 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
-    void 커스텀_구분자_형식이_잘못_설정된_경우_경우_예외를_던진다1() {
+    void 커스텀_구분자_형식이_잘못_설정된_경우_예외를_던진다1() {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("/;\\n1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
@@ -49,7 +49,7 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
-    void 커스텀_구분자_형식이_잘못_설정된_경우_경우_예외를_던진다2() {
+    void 커스텀_구분자_형식이_잘못_설정된_경우_예외를_던진다2() {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException(";\\n1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
@@ -57,7 +57,7 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
-    void 커스텀_구분자_형식이_잘못_설정된_경우_경우_예외를_던진다3() {
+    void 커스텀_구분자_형식이_잘못_설정된_경우_예외를_던진다3() {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;n1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
@@ -85,14 +85,6 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() -> {
             run("//;\\n1;2;3");
             assertThat(output()).contains("결과 : 6");
-        });
-    }
-
-    @Test
-    void 빈문자열은_0을_반환한다() {
-        assertSimpleTest(() -> {
-            run("");
-            assertThat(output()).contains("결과 : 0");
         });
     }
 

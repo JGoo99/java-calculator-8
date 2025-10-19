@@ -11,6 +11,11 @@ public class Application {
             System.out.println("덧셈할 문자열을 입력해 주세요.");
             String input = Console.readLine();
 
+            if (input == null || input.isEmpty()) {
+                System.out.println("결과 : 0");
+                return;
+            }
+
             if (input.startsWith("//")) {
                 String customStr = input.substring(0, 5);
                 Pattern pattern = Pattern.compile("^//(.)\\\\n$");
