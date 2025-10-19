@@ -17,17 +17,17 @@ public class Application {
             }
 
             if (input.startsWith("//")) {
-                String customStr = input.substring(0, 5);
-                Pattern pattern = Pattern.compile("^//(.)\\\\n$");
-                Matcher matcher = pattern.matcher(customStr);
-
-                if (matcher.matches()) {
-                    printAnswer(input.substring(5), matcher.group(1));
+                Pattern p = Pattern.compile("^//(.)(?:\\\\n|\n)(.*)$");
+                Matcher m = p.matcher(input);
+                if (m.find()) {
+                    String delim = m.group(1);
+                    String body = m.group(2);
+                    printAnswer(body, Pattern.quote(delim));
                 } else {
-                    throw new IllegalArgumentException("커스텀 에러");
+                    throw new IllegalArgumentException("커스텀 구분자 형식 오류");
                 }
             } else {
-                printAnswer(input, ",|:");
+                printAnswer(input, "[,:]");
             }
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
