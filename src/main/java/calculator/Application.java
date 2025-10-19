@@ -1,11 +1,12 @@
 package calculator;
 
 import camp.nextstep.edu.missionutils.Console;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Application {
+    private static final Pattern HEADER = Pattern.compile("^//(.)(?:\\\\n|\\r?\\n)([\\s\\S]*)$");
+
     public static void main(String[] args) {
         try {
             System.out.println("덧셈할 문자열을 입력해 주세요.");
@@ -17,9 +18,8 @@ public class Application {
             }
 
             if (input.startsWith("//")) {
-                Pattern p = Pattern.compile("^//(.)(?:\\\\n|\n)(.*)$");
-                Matcher m = p.matcher(input);
-                if (m.find()) {
+                Matcher m = HEADER.matcher(input);
+                if (m.matches()) {
                     String delim = m.group(1);
                     String body = m.group(2);
                     printAnswer(body, Pattern.quote(delim));
@@ -30,7 +30,8 @@ public class Application {
                 printAnswer(input, "[,:]");
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+            String msg = (e.getMessage() == null || e.getMessage().isEmpty()) ? "잘못된 입력" : e.getMessage();
+            throw new IllegalArgumentException(msg);
         }
     }
 
