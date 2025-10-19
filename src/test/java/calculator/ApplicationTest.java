@@ -25,6 +25,14 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 음수가_포함된_경우_예외를_던진다() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("-1,2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
     void 기본_쉼표_구분자와_양수() {
         assertSimpleTest(() -> {
             run("1,2,3");
