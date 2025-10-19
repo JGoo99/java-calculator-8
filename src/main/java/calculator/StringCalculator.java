@@ -19,11 +19,11 @@ public class StringCalculator {
         long sum = 0L;
         for (String t : tokens) {
             if (t.isEmpty()) {
-                throw new IllegalArgumentException("잘못된 입력");
+                throw new IllegalArgumentException("구분자 사이에 값이 비어 있습니다.");
             }
             long n = parseLongStrict(t);
             if (n < 0) {
-                throw new IllegalArgumentException("음수 발생");
+                throw new IllegalArgumentException("음수는 허용되지 않습니다.");
             }
             sum += n;
         }
@@ -37,7 +37,7 @@ public class StringCalculator {
 
         Matcher m = CUSTOM_HEADER_PATTERN.matcher(input);
         if (!m.matches()) {
-            throw new IllegalArgumentException("커스텀 구분자 형식 오류");
+            throw new IllegalArgumentException("커스텀 구분자 형식이 잘못되었습니다.");
         }
 
         String delim = Pattern.quote(m.group(1));
@@ -49,7 +49,7 @@ public class StringCalculator {
         try {
             return Long.parseLong(s);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("잘못된 입력");
+            throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다.");
         }
     }
 

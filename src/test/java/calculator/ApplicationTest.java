@@ -29,6 +29,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("-1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("음수는 허용되지 않습니다.")
         );
     }
 
@@ -37,6 +38,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;\\n1;-2;3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("음수는 허용되지 않습니다.")
         );
     }
 
@@ -45,6 +47,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;;\\n1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("커스텀 구분자 형식이 잘못되었습니다.")
         );
     }
 
@@ -53,6 +56,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("/;\\n1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("커스텀 구분자 형식이 잘못되었습니다.")
         );
     }
 
@@ -61,6 +65,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException(";\\n1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("커스텀 구분자 형식이 잘못되었습니다.")
         );
     }
 
@@ -69,6 +74,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;n1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("커스텀 구분자 형식이 잘못되었습니다.")
         );
     }
 
@@ -77,6 +83,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("1,a,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("숫자가 아닌 값이 포함되어 있습니다.")
         );
     }
 
@@ -85,6 +92,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException(",1,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("구분자 사이에 값이 비어 있습니다.")
         );
     }
 
@@ -93,6 +101,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("1,,3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("구분자 사이에 값이 비어 있습니다.")
         );
     }
 
@@ -101,6 +110,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("1,2,"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("구분자 사이에 값이 비어 있습니다.")
         );
     }
 
@@ -109,6 +119,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;\\n1;ㅁ;3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("숫자가 아닌 값이 포함되어 있습니다.")
         );
     }
 
@@ -117,6 +128,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;\\n;1;3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("구분자 사이에 값이 비어 있습니다.")
         );
     }
 
@@ -125,6 +137,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;\\n1;;3"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("구분자 사이에 값이 비어 있습니다.")
         );
     }
 
@@ -133,6 +146,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;\\n1;2;"))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("구분자 사이에 값이 비어 있습니다.")
         );
     }
 
