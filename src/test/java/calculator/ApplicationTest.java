@@ -137,6 +137,30 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 기본구분자_합계가_int_초과() {
+        assertSimpleTest(() -> {
+            run("2000000000,2000000000");
+            assertThat(output()).contains("결과 : 4000000000");
+        });
+    }
+
+    @Test
+    void 경계값_케이스() {
+        assertSimpleTest(() -> {
+            run("2147483647,1"); // Integer.MAX_VALUE + 1
+            assertThat(output()).contains("결과 : 2147483648");
+        });
+    }
+
+    @Test
+    void 커스텀구분자_합계가_int_초과() {
+        assertSimpleTest(() -> {
+            run("//;\\n2000000000;2000000000");
+            assertThat(output()).contains("결과 : 4000000000");
+        });
+    }
+
+    @Test
     void 기본_쉼표_구분자와_양수() {
         assertSimpleTest(() -> {
             run("1,2,3");
