@@ -63,9 +63,9 @@ class ApplicationTest extends NsTest {
     @Test
     void 커스텀_구분자_형식이_잘못_설정된_경우_예외를_던진다2() {
         assertSimpleTest(() ->
-                assertThatThrownBy(() -> runException(";\\n1,2,3"))
+                assertThatThrownBy(() -> runException(";\\n1;2;3"))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("커스텀 구분자 형식이 잘못되었습니다.")
+                        .hasMessage("입력 형식이 잘못되었습니다.")
         );
     }
 
@@ -92,7 +92,7 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException(",1,3"))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("구분자 사이에 값이 비어 있습니다.")
+                        .hasMessage("입력 형식이 잘못되었습니다.")
         );
     }
 

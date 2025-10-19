@@ -31,7 +31,10 @@ public class StringCalculator {
     }
 
     private static ParsedInput parse(String input) {
-        if (!input.startsWith("//")) {
+        if (!input.startsWith("/")) {
+            if (!Character.isDigit(input.charAt(0)) && input.charAt(0) != '-' && input.charAt(0) != '+') {
+                throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
+            }
             return new ParsedInput(DEFAULT_DELIMITERS, input);
         }
 
