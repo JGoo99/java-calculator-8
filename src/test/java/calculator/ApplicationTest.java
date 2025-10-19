@@ -33,6 +33,38 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 커스텀_구분자가_두글자_이상인_경우_예외를_던진다() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//;;\\n1,2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 커스텀_구분자_형식이_잘못_설정된_경우_경우_예외를_던진다1() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("/;\\n1,2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 커스텀_구분자_형식이_잘못_설정된_경우_경우_예외를_던진다2() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException(";\\n1,2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 커스텀_구분자_형식이_잘못_설정된_경우_경우_예외를_던진다3() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//;n1,2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
     void 기본_쉼표_구분자와_양수() {
         assertSimpleTest(() -> {
             run("1,2,3");
@@ -48,7 +80,6 @@ class ApplicationTest extends NsTest {
         });
     }
 
-    // TODO: "//"와 "\n" 사이에 위치하는 문자를 커스텀 구분자로 추출한다.
     @Test
     void 커스텀_구분자와_양수() {
         assertSimpleTest(() -> {
@@ -56,7 +87,6 @@ class ApplicationTest extends NsTest {
             assertThat(output()).contains("결과 : 6");
         });
     }
-
 
     @Test
     void 빈문자열은_0을_반환한다() {
