@@ -33,6 +33,22 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 커스텀에서_구분자가_부호인_경우_값을_반환한다1() {
+        assertSimpleTest(() -> {
+            run("//+\\n1+2+3");
+            assertThat(output()).contains("결과 : 6");
+        });
+    }
+
+    @Test
+    void 커스텀에서_구분자가_부호인_경우_값을_반환한다2() {
+        assertSimpleTest(() -> {
+            run("//-\\n1-2-3");
+            assertThat(output()).contains("결과 : 6");
+        });
+    }
+
+    @Test
     void 커스텀에서_구분자가_탭인_경우_값을_반환한다() {
         assertSimpleTest(() -> {
             run("//\t\\n1\t2\t3");
