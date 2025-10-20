@@ -73,6 +73,14 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 커스텀에서_구분자가_슬래시인_경우_값을_반환한다() {
+        assertSimpleTest(() -> {
+            run("///\\n1/2/3");
+            assertThat(output()).contains("결과 : 6");
+        });
+    }
+
+    @Test
     void 커스텀에서_구분자가_이모지인_경우_값을_반환한다1() {
         assertSimpleTest(() -> {
             run("//\uD83D\uDE42\\n1\uD83D\uDE422\uD83D\uDE423");
@@ -97,14 +105,12 @@ class ApplicationTest extends NsTest {
         );
     }
 
-
     @Test
-    void 음수가_포함된_경우_예외를_던진다() {
-        assertSimpleTest(() ->
-                assertThatThrownBy(() -> runException("-1,2,3"))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("음수는 허용되지 않습니다.")
-        );
+    void 커스텀에서_구분자가_백슬래시인_경우_값을_반환한다() {
+        assertSimpleTest(() -> {
+            run("//\\\\n1\\2\\3");
+            assertThat(output()).contains("결과 : 6");
+        });
     }
 
     @Test

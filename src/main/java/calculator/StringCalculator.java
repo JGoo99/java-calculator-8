@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class StringCalculator {
     private static final String DEFAULT_DELIMITERS = "[,:]";
     private static final Pattern CUSTOM_HEADER_PATTERN =
-            Pattern.compile("^//(.)(?:\\n|\\r?\\n|\\\\n)([\\s\\S]*)$"); // \n, CRLF, literal "\\n"
+            Pattern.compile("(?s)^//(.)\\\\n([\\s\\S]*)$");
 
     private StringCalculator() {
     }
