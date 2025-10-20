@@ -17,8 +17,12 @@ public class StringCalculator {
         }
 
         final String input = normalize(rawInput);
-
         ParsedInput parsedInput = parse(input);
+
+        if (parsedInput.getBody().isEmpty()) {
+            return 0L;
+        }
+
         String[] tokens = parsedInput.getBody().split(parsedInput.getDelimiterRegex(), -1);
 
         long sum = 0L;
@@ -69,9 +73,20 @@ public class StringCalculator {
             throw new IllegalArgumentException("커스텀 구분자 형식이 잘못되었습니다.");
         }
 
-        String delim = Pattern.quote(m.group(1));
-        String body = m.group(2);
-        return new ParsedInput(delim, body);
+        final String delimiterChar = m.group(1);
+
+        final char ch = delimiterChar.charAt(0);
+        if (Character.isDigit(ch)) {
+            throw new IllegalArgumentException("숫자는 구분자로 사용할 수 없습니다.");
+        }
+
+        final String delimiterRegex = Pattern.quote(delimiterChar);
+        final String body = m.group(2);
+
+        if (body == null || body.isEmpty()) {
+            return new ParsedInput(delimiterRegex, "");
+        }
+        return new ParsedInput(delimiterRegex, body);
     }
 
     private static long parseLongStrict(String s) {
