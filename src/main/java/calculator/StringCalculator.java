@@ -11,19 +11,28 @@ public class StringCalculator {
     private StringCalculator() {
     }
 
-    public static long add(String input) {
-        if (isNullOrEmpty(input)) {
+    public static long add(String rawInput) {
+        if (isNullOrEmpty(rawInput)) {
             return 0L;
         }
+
+        final String input = normalize(rawInput);
 
         ParsedInput parsedInput = parse(input);
         String[] tokens = parsedInput.getBody().split(parsedInput.getDelimiterRegex(), -1);
 
         long sum = 0L;
         for (String t : tokens) {
-            sum += parseAndValidateNumber(t);
+            final long n = parseAndValidateNumber(t);
+            sum = safeAdd(sum, n);
         }
         return sum;
+    }
+
+    private static String normalize(String s) {
+        return s.replace("\r\n", "\n")
+                .replace("\r", "\n")
+                .trim();
     }
 
     private static long parseAndValidateNumber(String t) {
@@ -65,6 +74,16 @@ public class StringCalculator {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다.");
         }
+    }
+
+    private static long safeAdd(long a, long b) {
+        if (b > 0 && a > Long.MAX_VALUE - b) {
+            throw new IllegalArgumentException("합계가 long 범위를 초과했습니다.");
+        }
+        if (b < 0 && a < Long.MIN_VALUE - b) {
+            throw new IllegalArgumentException("합계가 long 범위를 초과했습니다.");
+        }
+        return a + b;
     }
 
 }

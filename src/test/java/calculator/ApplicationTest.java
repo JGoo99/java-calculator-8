@@ -34,6 +34,15 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 합계가_Long_범위를_초과할_경우_예외를_던진다() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("9223372036854775807,1"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("합계가 long 범위를 초과했습니다.")
+        );
+    }
+
+    @Test
     void 커스텀에서_음수가_포함된_경우_예외를_던진다() {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("//;\\n1;-2;3"))
