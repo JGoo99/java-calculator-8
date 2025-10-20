@@ -25,11 +25,46 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 커스텀에서_구분자가_커스텀인_경우() {
+        assertSimpleTest(() -> {
+            run("// \\n1 2 3");
+            assertThat(output()).contains("결과 : 6");
+        });
+    }
+
+    @Test
     void 음수가_포함된_경우_예외를_던진다() {
         assertSimpleTest(() ->
                 assertThatThrownBy(() -> runException("-1,2,3"))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("음수는 허용되지 않습니다.")
+        );
+    }
+
+    @Test
+    void 숫자_주변에_공백이_포함되어_있는_경우_예회를_던진다() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("1 "))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("숫자 주변에 공백이 포함되어 있습니다.")
+        );
+    }
+
+    @Test
+    void 커스텀에서_숫자_주변에_공백이_포함되어_있는_경우_예회를_던진다1() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//;\\n 1"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("숫자 주변에 공백이 포함되어 있습니다.")
+        );
+    }
+
+    @Test
+    void 커스텀에서_숫자_주변에_공백이_포함되어_있는_경우_예회를_던진다2() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//;\\n1, 2"))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("숫자 주변에 공백이 포함되어 있습니다.")
         );
     }
 

@@ -23,7 +23,7 @@ public class StringCalculator {
 
         long sum = 0L;
         for (String t : tokens) {
-            final long n = parseAndValidateNumber(t);
+            final long n = parseAndValidateNumber(t, parsedInput.getDelimiterRegex());
             sum = safeAdd(sum, n);
         }
         return sum;
@@ -31,15 +31,21 @@ public class StringCalculator {
 
     private static String normalize(String s) {
         return s.replace("\r\n", "\n")
-                .replace("\r", "\n")
-                .trim();
+                .replace("\r", "\n");
     }
 
-    private static long parseAndValidateNumber(String t) {
-        if (t.isEmpty()) {
+    private static long parseAndValidateNumber(String token, String delimiterRegex) {
+        if (token == null || token.isEmpty()) {
             throw new IllegalArgumentException("구분자 사이에 값이 비어 있습니다.");
         }
-        long n = parseLongStrict(t);
+
+        if (!delimiterRegex.equals("\\Q \\E") && !delimiterRegex.equals("\\Q\\t\\E")) {
+            if (token.contains(" ") || token.contains("\t")) {
+                throw new IllegalArgumentException("숫자 주변에 공백이 포함되어 있습니다.");
+            }
+        }
+
+        long n = parseLongStrict(token);
         if (n < 0) {
             throw new IllegalArgumentException("음수는 허용되지 않습니다.");
         }
