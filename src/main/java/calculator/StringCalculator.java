@@ -8,8 +8,11 @@ public class StringCalculator {
     private static final Pattern CUSTOM_HEADER_PATTERN =
             Pattern.compile("^//(.)(?:\\n|\\r?\\n|\\\\n)([\\s\\S]*)$"); // \n, CRLF, literal "\\n"
 
+    private StringCalculator() {
+    }
+
     public static long add(String input) {
-        if (input == null || input.isEmpty()) {
+        if (isNullOrEmpty(input)) {
             return 0L;
         }
 
@@ -18,16 +21,24 @@ public class StringCalculator {
 
         long sum = 0L;
         for (String t : tokens) {
-            if (t.isEmpty()) {
-                throw new IllegalArgumentException("구분자 사이에 값이 비어 있습니다.");
-            }
-            long n = parseLongStrict(t);
-            if (n < 0) {
-                throw new IllegalArgumentException("음수는 허용되지 않습니다.");
-            }
-            sum += n;
+            sum += parseAndValidateNumber(t);
         }
         return sum;
+    }
+
+    private static long parseAndValidateNumber(String t) {
+        if (t.isEmpty()) {
+            throw new IllegalArgumentException("구분자 사이에 값이 비어 있습니다.");
+        }
+        long n = parseLongStrict(t);
+        if (n < 0) {
+            throw new IllegalArgumentException("음수는 허용되지 않습니다.");
+        }
+        return n;
+    }
+
+    private static boolean isNullOrEmpty(String input) {
+        return input == null || input.isEmpty();
     }
 
     private static ParsedInput parse(String input) {

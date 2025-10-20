@@ -1,6 +1,6 @@
 package calculator;
 
-public class ParsedInput {
+public final class ParsedInput {
     private final String delimiterRegex;
     private final String body;
 
