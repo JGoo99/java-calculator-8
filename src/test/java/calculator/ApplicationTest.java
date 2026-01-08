@@ -61,6 +61,15 @@ class ApplicationTest extends NsTest {
         });
     }
 
+    @Test
+    @DisplayName("커스텀 구분자 사용")
+    void test5() {
+        assertSimpleTest(() -> {
+            run("//;\\n1;2;3");
+            assertThat(output()).contains("결과 : 6");
+        });
+    }
+
     @Override
     public void runMain() {
         Application.main(new String[]{});

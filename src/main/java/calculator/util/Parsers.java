@@ -53,7 +53,31 @@ public final class Parsers {
     }
 
     public static CalcString parseCalcString(String input) {
-        Pattern pattern = Pattern.compile("^[^,]*(?:(,|:)\\d+)*$");
+        // //;\n1;2;3
+        if (input.startsWith("//")) {
+            Pattern pattern = Pattern.compile("^//(.)\\\\n$");
+            Matcher matcher = pattern.matcher(input.substring(0, 5));
+            if (!matcher.matches()) {
+                throw new IllegalArgumentException("[ERROR] 입력 형식이 잘못되었습니다." + "(입력값: " + input + ")");
+            }
+            String separator = matcher.group(1);
+            String numberString = input.substring(5);
+
+            Pattern numberStringPattern = Pattern.compile("^\\d*(?:" + separator + "\\d+)*$");
+            Matcher numberStringMatcher = numberStringPattern.matcher(numberString);
+
+            if (!numberStringMatcher.matches()) {
+                throw new IllegalArgumentException("[ERROR] 입력 형식이 잘못되었습니다." + "(입력값: " + numberString + ")");
+            }
+
+            List<String> numberStrings = Arrays.asList(numberString.split(separator, -1));
+            List<Integer> numbers = numberStrings.stream()
+                .map(Parsers::parseIntStrict)
+                .toList();
+            return new CalcString(separator, numbers);
+        }
+
+        Pattern pattern = Pattern.compile("^\\d*(?:(,|:)\\d+)*$");
         Matcher matcher = pattern.matcher(input);
 
         if (!matcher.matches()) {
