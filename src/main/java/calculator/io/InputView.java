@@ -1,12 +1,13 @@
 package calculator.io;
 
+import calculator.domain.CalcString;
 import calculator.util.Parsers;
 import calculator.util.Retry;
 import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
     public String readNonBlankLine() {
-        return Retry.untilSuccess(() -> Parsers.parseNonBlank(readTrimmedLineOrThrow()));
+        return Parsers.parseNonNull(readTrimmedLineOrThrow());
     }
 
     public int readInt() {
@@ -31,5 +32,10 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 입력이 비어있습니다." + "(입력값: \"" + line + "\")");
         }
         return line.trim();
+    }
+
+    public CalcString readCalcString() {
+        String input = readNonBlankLine();
+        return Parsers.parseCalcString(input);
     }
 }
